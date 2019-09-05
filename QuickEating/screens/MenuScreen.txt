@@ -1,0 +1,221 @@
+import React from 'react';
+import { Text, View, Button, StyleSheet } from 'react-native';
+import { MenuItem } from '../components/MenuItem';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+export class MenuScreen extends React.Component{
+
+    state = {
+        cart:[],
+        total: 0,
+    };
+
+    static navigationOptions = ({navigation}) => {
+        return {
+            headerTitleStyle :{color:'#fff'},
+            headerStyle: {backgroundColor:"#28a745"}
+        };
+    };
+
+    getRestName(id){
+        var name;
+        
+        switch(id){
+            case 'rest1':
+                name = "McDonald's";
+                break;
+            case 'rest2':
+                name = "Popeyes Louisiana Kitchen";
+                break;
+            case 'rest3':
+                name = "Shinka Sushi";
+                break;
+            case 'rest4':
+                name = "Fiazza Frech Pizza";
+                break;
+            case 'rest5':
+                name = "Baskin Robin";
+        }
+
+        return name;
+    }
+
+    addItem(item, price){
+        let currTotal = this.state.total;
+        let currCart = this.state.cart;
+        let inCartIndex = currCart.findIndex(cartItem => cartItem.itemName === item);
+
+        if(inCartIndex > -1){
+            currCart[inCartIndex].itemQuantity ++;
+        } else{
+            let newCartItem = {
+                itemName: item,
+                itemPrice: price,
+                itemQuantity: 1
+            }
+            currCart.push(newCartItem);
+            this.setState({cart: currCart});
+        }
+
+        currTotal = currTotal + price;
+
+        this.setState({total: currTotal});       
+    }
+
+    removeItem(item, price){
+        let currTotal = this.state.total;
+        let currCart = this.state.cart;
+        let inCartIndex = currCart.findIndex(cartItem => cartItem.itemName === item);
+
+        if(inCartIndex > -1){
+            currCart[inCartIndex].itemQuantity --;
+
+            if(currCart[inCartIndex].itemQuantity === 0){
+                currCart.splice(inCartIndex, 1);
+            }
+
+            currTotal = currTotal - price;
+            this.setState({total: currTotal});
+        }        
+    }
+
+    getQuantity(item){
+        var cart = this.state.cart;
+        var quantity;
+
+        cart.map((cartItem) => {
+            if(cartItem.itemName === item){
+                quantity = cartItem.itemQuantity;
+            } else {
+                quantity = 0;
+            }
+        });
+
+        return quantity;
+    }
+    
+    getMenuItems(id){
+        var currItems;
+
+        menuItems.map((rest)=> {
+            if(id === rest.id){
+                currItems = rest.items.map((item) => {
+                    let i = rest.items.indexOf(item);
+                    return <View style={styles.menuContainer}>
+                            <MenuItem id={rest.id} name={item} price={rest.prices[i]}/>
+                            <View style={styles.quantityContainer}>
+                                <TouchableOpacity style={styles.quantityButton} onPress={()=>this.addItem(item, rest.prices[i])}>
+                                    <Text style={styles.quantityText}>+</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.quantityNum}>{this.state.cart.length === 0 ? '0' : this.getQuantity(item)}</Text>
+                                <TouchableOpacity style={styles.quantityButton} onPress={()=>this.removeItem(item, rest.prices[i])}>
+                                    <Text style={styles.quantityText}>-</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>; 
+                });
+            }
+        })
+
+        return currItems;
+    }
+    
+    render(){
+        const { navigation } = this.props;
+        const id = navigation.getParam('id', 'NO-ID');
+
+        return (
+            <View style={{flex:1}}>
+                <View style={styles.container}>
+                    <Text style={{fontWeight:'bold', fontSize: 20}}>{this.getRestName(id)}</Text>
+                    <View style={{flex: 1}}>{this.getMenuItems(id)}</View>
+                </View>
+                <View>
+                    <TouchableOpacity style={styles.cartSummary}
+                        onPress={() => navigation.navigate("Cart", {cart: this.state.cart, total: this.state.total})}>
+                        <Text style={styles.cartItem}>CART</Text>
+                        <Text style={styles.cartItem}>Items: {this.state.cart.length}</Text>
+                        <Text style={styles.cartItem}>Subtotal: ${this.state.total.toFixed(2)}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 30
+    },
+    menuContainer: {
+        marginTop: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderColor: '#28a745', 
+        borderWidth: 2,
+        borderRadius: 5,
+        paddingRight: 10
+    },
+    quantityContainer: {
+        flexDirection: 'row',
+        width: 150, 
+        justifyContent: 'space-evenly'
+    },
+    quantityButton: {
+        backgroundColor: "#28a745",
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        justifyContent: 'center'
+    },
+    quantityText: {
+        color: 'white',
+        alignSelf: 'center'
+    }, 
+    quantityNum: {
+        fontSize: 20
+    },
+    cartSummary: {
+        flexDirection: 'row',
+        height: 75,
+        backgroundColor: '#28a745',
+        justifyContent: 'space-around',
+        alignItems: 'center'
+    },
+    cartItem: {
+        color: 'white', 
+        fontWeight: 'bold',
+        fontSize: 20
+    }
+});
+
+
+const menuItems = [
+    {
+        id: "rest1",
+        items: ["Mighty Angus Original", "BigMac Extra Value", "Fish & Chips", "Asian Cashew Salad", "Cajun Signature Wrap", "Coca-Cola", "Dark Roasted Coffee"],
+        prices: [5.49, 4.99, 3.99, 10.49, 5.49, 2.49, 1.49]
+    },
+    {
+        id: "rest2",
+        items: ["Chicken Combo", "Nugget Platter", "5 Wings Combo", "Cajun Fries", "Biscuit"],
+        prices: [6.49, 2.89, 5.99, 3.99, 1.99]
+    },
+    {
+        id: "rest3",
+        items: ["Vegetarian Tempura", "Shrimp Tempura", "Miso Soup", "Edamame", "Gyoza", "Japanese Calamari"],
+        prices: [10.99, 14.99, 12.99, 10.99, 8.99]
+    },
+    {
+        id: "rest4",
+        items: ["Picante Calabrese", "Brocolli Bianca", "Peperoni", "Special Carbonara", "Capri Pesto", "Magic Mushroom"],
+        prices: [9.49, 8.99, 10.49, 15.99, 10.49, 7.49]
+    },
+    {
+        id: "rest5",
+        items: ["Rainbow Sherbet", "Vanilla", "Chocolate", "Praline 'N Cream", "Peanut Butter 'N Chocolate", "Magic Oreo"],
+        prices: [6.49, 8.99, 12.49, 17.99, 20.49, 6.49]
+    }
+];

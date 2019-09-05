@@ -1,0 +1,119 @@
+import React, {Component} from 'react';
+import { StyleSheet, Text, View, Button, Picker, Image, TouchableHighlight } from 'react-native';
+
+export class RestaurantIcon extends React.Component {
+
+    getImage = () => {
+        var imgSrc;
+        
+        switch(this.props.id){
+            case 'rest1':
+                imgSrc = <Image style={styles.image} source={require('./macdo_original.jpg')}/>;
+                break;
+            case 'rest2':
+                imgSrc = <Image style={styles.image} source={require('./popeyes_original.jpg')}/>;
+                break;
+            case 'rest3':
+                imgSrc = <Image style={styles.image} source={require('./shinka_sushi.jpg')}/>;
+                break;
+            case 'rest4':
+                imgSrc = <Image style={styles.image} source={require('./fiazza_fresh_pizza.jpg')}/>;
+                break;
+            case 'rest5':
+                imgSrc = <Image style={styles.image} source={require('./baskin_robin_original.jpg')}/>;
+                break;
+        }
+        return imgSrc;
+    }
+
+    render(){
+        
+        return(
+            <View style={styles.iconContainer}>
+                {this.getImage()}
+                <View style={styles.restInfo}>
+                    <Text style={{fontWeight: 'bold', fontSize: 20, fontColor: 'black'}}>{this.props.name}</Text>
+                    <Text>{this.props.rating}</Text>
+                    <Text>{this.props.address}</Text>
+                    <Text>{this.props.priceRange}</Text>
+                    <Text>{this.props.hours}</Text>
+                </View>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    image: {
+        flex: 1,
+        height: 130,
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
+    }, 
+    iconContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        borderColor: '#212529', 
+        borderWidth: 2,
+        borderRadius: 5,
+        marginTop: 7,
+        height: 130
+    },
+    restInfo: {
+        flex: 1,
+        marginLeft: 5
+    }
+});
+
+const restaurants = [
+    {   
+        id: "rest1",
+        name: "McDonald's",
+        rating: "4 stars",
+        address: "55 Laurier Street",
+        type: ["lunch", "late night"],
+        priceRange: "$10-$20",
+        hours: "24 hours",
+        image: "macdo_original.jpg"
+    },
+    {   
+        id: "rest2",
+        name: "Popeyes Louisiana Kitchen",
+        rating: "4 stars",
+        address: "34 Groove Street",
+        type: ["lunch", "dinner", "late night"],
+        priceRange: "$5-$25",
+        hours: "9am - 9pm",
+        image: "popeyes_original.jpg"
+    },
+    {   
+        id: "rest3",
+        name: "Shinka Sushi",
+        rating: "5 stars",
+        address: "65 Cumberland Street",
+        type: ["chinese", "lunch", "dinner", "late night"],
+        priceRange: "$5-$25",
+        hours: "24 hours",
+        image: "shinka_sushi.jpg"
+    },
+    {
+        id: "rest4",
+        name: "Fiazza Fresh Pizza",
+        rating: "5 stars",
+        address: "789 Cooper Street",
+        type: ["italian", "lunch", "dinner", "late night"],
+        priceRange: "$25",
+        hours: "24 hours",
+        image: "fiazza_fresh_pizza.jpg"
+    },
+    {
+        id: "rest5",
+        name: "Baskin Robin",
+        rating: "3 stars",
+        address: "711 Montreal Street",
+        type: ["dessert", "late night"],
+        priceRange: "$5-$25",
+        hours: "24 hours",
+        image: "baskin_robin_original.jpg"
+    }
+]

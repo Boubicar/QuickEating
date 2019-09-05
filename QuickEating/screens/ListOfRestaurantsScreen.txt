@@ -1,0 +1,231 @@
+import React, {Component} from 'react';
+import { StyleSheet, Text, View, Button, Picker, TextInput, TouchableHighlight } from 'react-native';
+import { RestaurantIcon } from '../components/RestaurantIcon';
+import { SearchBar, Icon } from 'react-native-elements';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+
+
+export class ListOfRestaurantsScreen extends React.Component {
+    constructor(props){
+        super(props);
+    }
+
+    state = {
+        searchResults: [],
+        text: '',
+        noResults: false
+    };
+
+    static navigationOptions = ({navigation}) => {
+        return {
+
+            headerTitleStyle :{color:'#fff'},
+            headerStyle: {backgroundColor:"#28a745"},
+        };
+    };
+
+    componentDidMount() {
+        this.props.navigation.setParams({ handleSave: this._saveDetails });
+    }
+
+    
+    updateSearch(value){
+        console.log(value);
+    }
+
+    performSearch(searchValue) {
+        searchValue = searchValue.toLowerCase();
+        console.log("Rechercher " + searchValue);
+        this.setState({searchResults: []});
+        let results = [];
+
+        restaurants.map((rest) => {
+            if(rest.type.includes(searchValue)){
+                console.log(rest.name + " comme type de nourriture " + searchValue);
+                results.push(rest);
+            }
+        });
+
+        if(results.length === 0){
+            this.setState({noResults: true})
+        }
+
+        console.log(this.state.noResults);
+        this.setState({searchResults: results});
+    }
+
+    displayResults(){
+        let results = this.state.searchResults;
+        const {navigate} = this.props.navigation;
+
+        let displayedRes = results.map((result) => {
+            return(<TouchableOpacity onPress={() => navigate("Menu", {id: result.id})}>
+                <RestaurantIcon 
+                    id={result.id}
+                    name={result.name}
+                    rating={result.rating}
+                    address={result.address}
+                    priceRange={result.priceRange}
+                    hours={result.hours}
+                ></RestaurantIcon>
+            </TouchableOpacity>);
+        });
+
+        return displayedRes;
+    }
+
+    buttons(){
+        const foodTypes = ["Indian", "Lunch", "Dinner", "Late Night", "Chinese", 
+            "Burgers", "Dessert", "Italian", "African"];
+        
+        let typeButtons = foodTypes.map((type) => {
+            return <TouchableOpacity
+                style={styles.button} 
+                onPress={() => {this.performSearch(type)}}>
+                    <Text style={{color: "#fff", alignSelf: 'center', fontSize: 15, fontWeight: 'bold'}}>{type}</Text>
+                </TouchableOpacity>
+        })
+
+        return typeButtons;
+    }
+    
+    render() {
+        const {navigate} = this.props.navigation;
+
+        const allRests = restaurants.map((restaurant) => 
+            <TouchableOpacity onPress={() => navigate("Menu", {id: restaurant.id})}>
+                <RestaurantIcon 
+                    id={restaurant.id}
+                    name={restaurant.name}
+                    rating={restaurant.rating}
+                    address={restaurant.address}
+                    priceRange={restaurant.priceRange}
+                    hours={restaurant.hours}
+                ></RestaurantIcon>
+            </TouchableOpacity>
+        );
+
+        return (
+            <ScrollView contentContainerStyle={styles.wrapper} style={styles.container}>
+                <View style={styles.searchContain}>
+                    <TextInput 
+                        style={styles.textInput}
+                        onChangeText={(text) => this.setState({text})}
+                        value={this.state.text}
+                        placeholder="Search or choose a button below"
+                    />
+                    <TouchableOpacity style={styles.searchButton} 
+                        onPress={() => {this.performSearch(this.state.text)}}>
+                            {/* <Text style={styles.searchButtonText}>Searc</Text> */}
+                            <Icon name='search' type='material' color='white'/>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.buttonContainer}>{this.state.text.length === 0 ? this.buttons() : null}</View>
+                <View>{this.state.searchResults.length === 0 ? allRests: this.displayResults()}</View>
+            </ScrollView>
+        );
+    }
+}
+
+const restaurants = [
+    {   
+        id: "rest1",
+        name: "McDonald's",
+        rating: "4 stars",
+        address: "55 Laurier Street",
+        type: ["lunch", "late night"],
+        priceRange: "$10-$15",
+        hours: "24 hours",
+        image: "macdo_original.jpg"
+    },
+    {   
+        id: "rest2",
+        name: "Popeyes Louisiana Kitchen",
+        rating: "4 stars",
+        address: "34 Groove Street",
+        type: ["lunch", "dinner", "late night"],
+        priceRange: "$5-$25",
+        hours: "9am - 9pm",
+        image: "popeyes_original.jpg"
+    },
+    {   
+        id: "rest3",
+        name: "Shinka Sushi",
+        rating: "5 stars",
+        address: "65 Cumberland Street",
+        type: ["chinese", "lunch", "dinner", "late night"],
+        priceRange: "$10-$15",
+        hours: "24 hours",
+        image: "shinka_sushi.jpg"
+    },
+    {
+        id: "rest4",
+        name: "Fiazza Fresh Pizza",
+        rating: "5 stars",
+        address: "789 Cooper Street",
+        type: ["italian", "lunch", "dinner", "late night"],
+        priceRange: "$15-$25",
+        hours: "24 hours",
+        image: "fiazza_fresh_pizza.jpg"
+    },
+    {
+        id: "rest5",
+        name: "Baskin Robin",
+        rating: "3 stars",
+        address: "711 Montreal Street",
+        type: ["dessert", "late night"],
+        priceRange: "$15-$25",
+        hours: "24 hours",
+        image: "baskin_robin_original.jpg"
+    }
+]
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 30,
+        flexDirection: 'column'
+    },
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+    },
+    searchContain: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginBottom: 10
+    },
+    textInput: {
+        flex: 1,
+        height: 40, 
+        borderColor: '#28a745', 
+        borderWidth: 2,
+        borderRadius: 5,
+        padding: 10,
+        fontSize: 20
+    },
+    searchButton: {
+        flex: 1,
+        backgroundColor: '#28a745',
+        borderRadius: 5,
+        justifyContent: 'center',
+        padding: 5,
+        width: 60,
+        marginLeft: 5
+    },
+
+    button: {
+        backgroundColor: "#28a745",
+        flex: 1,
+        width: 80,
+        height: 40,
+        margin: 3,
+        padding: 7,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+});

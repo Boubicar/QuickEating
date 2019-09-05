@@ -1,0 +1,193 @@
+// import React from 'react';
+// import { StyleSheet, Text, View, Button, Image } from 'react-native';
+// import { CartScreen } from '../screens/CartScreen';
+// import {Component} from 'react';
+
+
+// export class MenuItem extends React.Component {
+
+//     getImage = () => {
+//         var imgSrc;
+//         switch(this.props.id){
+//             case 'rest1':
+//                 switch(this.props.name){
+//                     case 'Mighty Angus Original':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./angus_original.jpg')}/>;
+//                         break;
+//                     case 'BigMac Extra Value':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./big_mac_original.jpg')}/>;
+//                         break;
+//                     case 'Fish & Chips':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./Fish&chips_original.jpg')}/>;                    
+//                         break;
+//                     case 'Asian Cashew Salad':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./salad_cashew_original.jpg')}/>;
+//                         break;
+//                     case 'Cajun Signature Wrap':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./cajun_wrap_original.jpg')}/>;
+//                         break;
+//                      case 'Coca-cola':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./coke_original.jpg')}/>;
+//                         break;
+//                       case 'Dark Roasted Coffee':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./coffee_original.jpg')}/>;
+//                         break;
+//                 }
+//                 break;
+//             case 'rest2':
+//                 switch(this.props.name){
+//                     case 'Chicken Combo':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./chicken_combo_original.jpg')}/>;
+//                         break;
+//                     case 'Nugget Platter':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./nugget_platter_original.jpg')}/>;
+//                         break;
+//                     case '5 Wings Combo':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./5wing_original.jpg')}/>;                    
+//                         break;
+//                     case 'Cajun Fries':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./cajun_fries_original.jpg')}/>;
+//                         break;
+//                     case 'Biscuit':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./biscuit_original.jpg')}/>;
+//                         break;
+//                 }
+//                 break;
+//             case 'rest3':
+//                 switch(this.props.name){
+//                     case 'Vegetarian Tempura':
+//                         imgSrc = <Image style={styles.itemImage} source={require('')}/>;
+//                         break;
+//                     case 'Shrimp Tempura':
+//                         imgSrc = <Image style={styles.itemImage} source={require('')}/>;
+//                         break;
+//                     case 'Miso Soup':
+//                         imgSrc = <Image style={styles.itemImage} source={require('')}/>;                    
+//                         break;
+//                     case 'Edamame':
+//                         imgSrc = <Image style={styles.itemImage} source={require('')}/>;
+//                         break;
+//                     case 'Gyoza':
+//                         imgSrc = <Image style={styles.itemImage} source={require('')}/>;
+//                         break;
+//                     case 'Japanese Calamari':
+//                         imgSrc = <Image style={styles.itemImage} source={require('')}/>;
+//                         break;
+//                 }
+//                 break;
+//             case 'rest4':
+//                 imgSrc = <Image style={styles.itemImage} source={require('')}/>;
+//                 break;
+//             case 'rest5':
+//                 switch(this.props.name){
+//                     case 'Rainbow Sherbet':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./rainbow_sherbet_original.jpg')}/>;
+//                         break;
+//                     case 'Vanilla':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./vanilla_original.jpg')}/>;
+//                         break;
+//                     case 'Chocolate':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./chocolat_original.jpg')}/>;                    
+//                         break;
+//                     case "Praline 'N Cream":
+//                         imgSrc = <Image style={styles.itemImage} source={require('./praline_cream_original.jpg')}/>;
+//                         break;
+//                     case "Peanut Butter 'N Chocolate":
+//                         imgSrc = <Image style={styles.itemImage} source={require('./peanut&chocolat_original.jpg')}/>;
+//                         break;
+//                     case 'Magic Oreo':
+//                         imgSrc = <Image style={styles.itemImage} source={require('./the_lastone_original.jpg')}/>;
+//                         break;
+//                 }
+//                 break;
+            
+//         }
+//         return imgSrc;
+//     }
+
+//     render(){
+//         return (<View style={styles.menuItem}>
+//                     {this.getImage()}
+//                     <View style={styles.itemDescrip}>
+//                         <Text>{this.props.name}</Text>
+//                         <Text>${this.props.price.toFixed(2)}</Text>  
+//                     </View>
+//                 </View>);
+//     }
+// }
+
+// const styles = StyleSheet.create({
+//     menuItem: {
+//         flex: 1,
+//         flexDirection: 'row',
+//         height: 110,
+//         alignItems: 'center',
+//         paddingRight: 10
+//     },
+//     itemImage: {
+//         flex: 1,
+//         height: 110,
+//         borderTopLeftRadius: 5,
+//         borderBottomLeftRadius: 5,
+//     },
+//     itemDescrip: {
+//         flex: 1,
+//         marginLeft: 5
+//     }
+// });
+import React from 'react';
+import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { CartScreen } from '../screens/CartScreen';
+
+export class MenuItem extends React.Component {
+
+    getImage = () => {
+        var imgSrc;
+        // switch(this.props.id){
+        //     case 'rest1':
+        //         switch(this.props.name){
+        //             case 'Mighty Angus Original':
+        //                 imgSrc = <Image style={styles.itemImage} source={require('./')}/>;
+        //                 break;
+        //             case 'BigMac Extra Value':
+        //                 imgSrc = <Image style={styles.itemImage} source={require('./')}/>;
+        //                 break;
+        //         }
+        //         break;
+        //     case 'rest2':
+        //         imgSrc = <Image style={styles.itemImage} source={require('./')}/>;
+        //         break;
+        //     case 'rest3':
+        //         imgSrc = <Image style={styles.itemImage} source={require('./')}/>;
+        //         break;
+        //     case 'rest4':
+        //         imgSrc = <Image style={styles.itemImage} source={require('./')}/>;
+        //         break;
+        // }
+        return imgSrc;
+    }
+
+    render(){
+        return <View style={styles.menuItem}>
+                    {this.getImage()}
+                    <View style={styles.itemDescrip}>
+                        <Text>{this.props.name}</Text>
+                        <Text>${this.props.price.toFixed(2)}</Text>  
+                    </View>
+                </View>
+    }
+}
+
+const styles = StyleSheet.create({
+    menuItem: {
+        flex: 1,
+        flexDirection: 'row',
+        height: 110,
+        alignItems: 'center',
+        paddingRight: 10
+    },
+    itemDescrip: {
+        flex: 1,
+        marginLeft: 5
+    }
+});

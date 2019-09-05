@@ -1,0 +1,80 @@
+import React from 'react';
+import { StyleSheet, Text, View, Button, Picker } from 'react-native';
+import { registerRootComponent } from 'expo';
+import { CityPicker } from '../components/CityPicker';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+export default class WelcomeScreen extends React.Component{
+    constructor(props){
+        super(props);
+     
+        this.state = {
+           count: 0,
+        }
+    }
+
+    static navigationOptions = {
+        headerVisible: false,
+        header: null
+    };
+
+
+    render(){
+        const {navigate} = this.props.navigation;
+
+        return (
+            <View style={styles.container}>
+                <Text style={styles.logo}>Quick Eating</Text>
+                <Text style={styles.text}>Select your city: </Text>
+                <View style={styles.myClass}>
+                <CityPicker></CityPicker>
+                </View>
+                <TouchableOpacity id="seeRestsButton" 
+                    style={styles.button} 
+                    onPress={() => navigate('ListOfRestaurants')}>
+                        <Text style={styles.text}>Voir la liste</Text>
+                </TouchableOpacity>
+            </View>
+        ); 
+    }
+}
+
+const styles = StyleSheet.create({
+    myClass:{
+      flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        paddingBottom: 100
+    },
+    container: {
+        flex: 1,
+        padding: 50,
+        flexDirection: 'column',
+        backgroundColor: 'white'
+    },
+    button: {
+        backgroundColor: "#28a745",
+        width: 300,
+        marginBottom: 15,
+        padding: 15,
+        borderRadius: 7,
+       
+    },
+    logo: {
+        color: 'black',
+        fontSize: 70,
+        fontWeight: 'bold',
+        fontFamily: 'Roboto',
+        alignSelf: 'center',
+        width: 250,
+        textAlign: 'center'
+    },
+    text: {
+        color: '#ffffff',
+        fontSize: 20,
+        fontWeight: 700,
+        alignSelf: 'center',
+
+    }
+
+});
